@@ -96,6 +96,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
 <script>
     let selectedCalculationType = '';
 
@@ -118,20 +119,23 @@
     }
 
     function formatWithThousandSeparator(value) {
-        return value.toLocaleString();
+        return parseFloat(value).toLocaleString(); // Adds commas as thousand separator
     }
 
     function calculateDailyInterest() {
         const principal = parseFloat(document.getElementById("principal").value);
         const annualInterestRate = parseFloat(document.getElementById("interest-rate").value) / 100;
         const daysInYear = 365;
+        const daysInMonth = 30;
 
         if (!isNaN(principal) && !isNaN(annualInterestRate)) {
             const dailyInterest = (principal * annualInterestRate) / daysInYear;
+            const monthlyInterest = dailyInterest * daysInMonth;
             const dailyInterestRate = (annualInterestRate / daysInYear) * 100;
 
             document.getElementById("daily-interest-result").innerHTML = `
                 Daily Interest: ${formatWithThousandSeparator(dailyInterest.toFixed(2))} <br>
+                Monthly Interest: ${formatWithThousandSeparator(monthlyInterest.toFixed(2))} <br>
                 Daily Interest Rate: ${dailyInterestRate.toFixed(5)}%
             `;
         } else {
@@ -143,13 +147,16 @@
         const desiredDailyInterest = parseFloat(document.getElementById("desired-daily-interest").value);
         const annualInterestRate = parseFloat(document.getElementById("interest-rate").value) / 100;
         const daysInYear = 365;
+        const daysInMonth = 30;
 
         if (!isNaN(desiredDailyInterest) && !isNaN(annualInterestRate)) {
             const requiredPrincipal = (desiredDailyInterest * daysInYear) / annualInterestRate;
+            const monthlyInterest = desiredDailyInterest * daysInMonth;
             const dailyInterestRate = (annualInterestRate / daysInYear) * 100;
 
             document.getElementById("required-principal-result").innerHTML = `
                 Required Principal: ${formatWithThousandSeparator(requiredPrincipal.toFixed(2))} <br>
+                Monthly Interest: ${formatWithThousandSeparator(monthlyInterest.toFixed(2))} <br>
                 Daily Interest Rate: ${dailyInterestRate.toFixed(5)}%
             `;
         } else {
